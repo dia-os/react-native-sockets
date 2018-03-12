@@ -97,13 +97,17 @@ public class SocketClient {
             @Override
             protected Void doInBackground(String... params) {
                 try {
-                    String message = params[0];
-                    OutputStream outputStream = clientSocket.getOutputStream();
-                    PrintStream printStream = new PrintStream(outputStream);
-                    printStream.print(message + (char) EOT);
-                    printStream.flush();
-                    //debug log
-                    Log.d(eTag, "client sent message: " + message);
+                    if (clientSocket != null && clientSocket.getOutputStream() != null) {
+                        String message = params[0];
+                        OutputStream outputStream = clientSocket.getOutputStream();
+                        PrintStream printStream = new PrintStream(outputStream);
+                        printStream.print(message + (char) EOT);
+                        printStream.flush();
+                        //debug log
+                        Log.d(eTag, "client sent message: " + message);
+                    }else{
+                        Log.d(eTag, "client could not sent message");
+                    }
                 } catch (IOException e) {
                     handleIOException(e);
                 }
